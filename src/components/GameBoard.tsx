@@ -1,5 +1,5 @@
 import React from 'react';
-import type { GameState } from '../types';
+import type { GameState } from '../types.ts';
 import HUD from './HUD.tsx';
 import Logs from './Logs.tsx';
 import Revolver from './Revolver.tsx';
@@ -18,7 +18,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState, onFire, onSpin }) => {
             <HUD players={gameState.players} currentPlayerIndex={gameState.currentPlayerIndex} />
 
             <div className="main-area glass-panel" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '500px' }}>
-                <h2 style={{ color: currentPlayer.color, textTransform: 'uppercase', letterSpacing: '2px' }}>Lượt của {currentPlayer.name}</h2>
+                <h2 style={{ color: currentPlayer.color, textTransform: 'uppercase', letterSpacing: '2px' }}>Lượt của: {currentPlayer.name}</h2>
 
                 <div style={{ margin: '3rem 0' }}>
                     <Revolver chamber={gameState.chamber} chamberIndex={gameState.chamberIndex} />
@@ -26,10 +26,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ gameState, onFire, onSpin }) => {
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
                     <button className="button-primary" style={{ background: '#ff6b35' }} onClick={onFire}>
-                        BẮN
+                        🔥 BẮP CÒ
                     </button>
                     <button className="button-primary" style={{ background: '#3498db' }} onClick={onSpin}>
-                        XOAY CHAMBER
+                        🔄 XOAY Ổ ĐẠN
                     </button>
                 </div>
 

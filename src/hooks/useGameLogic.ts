@@ -3,6 +3,7 @@ import type { GameState, Bullet, BulletType } from '../types.ts';
 import { CHARACTERS } from '../constants.ts';
 
 const createInitialChamber = (): Bullet[] => {
+    // 1 Regular, 2 Gold, 1 Blue, 1 Purple, 1 Silver
     const bullets: BulletType[] = ['REGULAR', 'GOLD', 'BLUE', 'PURPLE', 'SILVER', 'GOLD'];
     return bullets.sort(() => Math.random() - 0.5).map(type => ({ type, isFired: false }));
 };
@@ -14,7 +15,7 @@ export const useGameLogic = () => {
         chamber: createInitialChamber(),
         chamberIndex: 0,
         phase: 'LOBBY',
-        logs: ['Welcome to Russian Roulette: Cute & Dramatic!'],
+        logs: ['Chào mừng tới Cò Quay Nga: Phiên bản Vui Nhộn!'],
         winner: null,
     });
 
@@ -26,7 +27,7 @@ export const useGameLogic = () => {
             const newPlayers = [...prev.players];
             const newChamber = [...prev.chamber];
 
-            newLogs.push(`${currentPlayer.name} pulls the trigger...`);
+            newLogs.push(`${currentPlayer.name} bóp cò...`);
             newChamber[prev.chamberIndex] = { ...bullet, isFired: true };
 
             let nextIndex = (prev.currentPlayerIndex + 1) % prev.players.length;
@@ -34,25 +35,25 @@ export const useGameLogic = () => {
 
             switch (bullet.type) {
                 case 'REGULAR':
-                    newLogs.push(`BOOM! ${currentPlayer.name} took damage!`);
+                    newLogs.push(`BÙM! ${currentPlayer.name} bị trúng đạn!`);
                     newPlayers[prev.currentPlayerIndex].hp -= 1;
                     break;
                 case 'GOLD':
-                    newLogs.push(`Click! It's a GOLD bullet. ${currentPlayer.name} is safe and feels lucky!`);
+                    newLogs.push(`Cạch! Đạn VÀNG. ${currentPlayer.name} an toàn và rất may mắn!`);
                     break;
                 case 'BLUE':
-                    newLogs.push(`Click! BLUE bullet! ${currentPlayer.name} gets an extra turn!`);
+                    newLogs.push(`Cạch! Đạn XANH! ${currentPlayer.name} được bắn thêm lượt nữa!`);
                     nextIndex = prev.currentPlayerIndex;
                     break;
                 case 'PURPLE':
-                    newLogs.push(`Click! PURPLE bullet! Turns are swapped!`);
+                    newLogs.push(`Cạch! Đạn TÍM! Đổi lượt chơi!`);
                     nextIndex = (prev.currentPlayerIndex + 2) % prev.players.length;
                     break;
                 case 'SILVER':
-                    newLogs.push(`Click! SILVER bullet! ${currentPlayer.name} peeks at the next slot.`);
+                    newLogs.push(`Cạch! Đạn BẠC! ${currentPlayer.name} đã thám thính được viên đạn tiếp theo.`);
                     break;
                 case 'RED':
-                    newLogs.push(`Click! RED bullet! ${currentPlayer.name} is skipped next turn.`);
+                    newLogs.push(`Cạch! Đạn ĐỎ! ${currentPlayer.name} sẽ bị mất lượt sau.`);
                     break;
             }
 
@@ -61,7 +62,7 @@ export const useGameLogic = () => {
                 return {
                     ...prev,
                     players: newPlayers,
-                    logs: [...newLogs, `${alivePlayers[0].name} is the winner!`],
+                    logs: [...newLogs, `Chúc mừng! ${alivePlayers[0].name} là người chiến thắng duy nhất!`],
                     phase: 'RESULT',
                     winner: alivePlayers[0],
                 };
@@ -86,7 +87,7 @@ export const useGameLogic = () => {
         setGameState(prev => ({
             ...prev,
             chamberIndex: Math.floor(Math.random() * prev.chamber.length),
-            logs: [...prev.logs, `${prev.players[prev.currentPlayerIndex].name} spins the chamber!`],
+            logs: [...prev.logs, `${prev.players[prev.currentPlayerIndex].name} xoay ổ đạn!`],
         }));
     }, []);
 
@@ -98,7 +99,7 @@ export const useGameLogic = () => {
             chamberIndex: 0,
             currentPlayerIndex: 0,
             players: CHARACTERS.map(c => ({ ...c })),
-            logs: ['Game Started! Good luck everyone!'],
+            logs: ['Trận đấu bắt đầu! Chúc mọi người may mắn!'],
             winner: null,
         }));
     }, []);
